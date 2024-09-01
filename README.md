@@ -33,7 +33,7 @@ Download the ZIP from GitHub or using Git:
    - By default, the URL shortener is hosted on your local machine, meaning it will only be accessible from the computer running the application
 
 ### Making It Accessible beyond your machine:
-If you want to access the URL shortener from other devices on your network or from the internet, you can:
+If you want to access the URL shortener from other devices on your network or from the internet:
 - Port Forwarding
 - Set up a DNS name
 - Cloud Hosting
