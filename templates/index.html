@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            margin-top: 50px;
+            flex: 1;
+        }
+        .short-url {
+            margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #f1f1f1;
+            width: 100%;
+            position: relative;
+        }
+        footer a {
+            color: #333;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Simple URL Shortener</h1>
+        <form method="post" class="form-inline justify-content-center">
+            <div class="form-group mb-2">
+                <label for="long_url" class="sr-only">Enter the URL to shorten</label>
+                <input type="url" class="form-control" id="long_url" name="long_url" placeholder="Enter URL" required>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2 ml-2">Shorten</button>
+        </form>
+
+        {% if message %}
+            <div class="alert alert-info text-center">
+                {{ message }} <a href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+            </div>
+        {% elif short_url %}
+            <div class="short-url text-center">
+                <h2>Your shortened URL is:</h2>
+                <a href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+            </div>
+        {% endif %}
+
+        <hr>
+
+        <h3 class="text-center">Existing Shortened URLs</h3>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Short URL</th>
+                    <th>Original URL</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for short_id, long_url in url_mapping.items() %}
+                    <tr>
+                        <td><a href="{{ request.host_url + short_id }}" target="_blank">{{ short_id }}</a></td>
+                        <td>{{ long_url }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_url', short_id=short_id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Made with ❤️ by <a href="https://github.com/TheRealAryan" target="_blank">TheRealAryan</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.js"></script>
+</body>
+</html>
